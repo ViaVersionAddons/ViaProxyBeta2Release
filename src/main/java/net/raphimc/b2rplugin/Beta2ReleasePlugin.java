@@ -43,14 +43,10 @@ public class Beta2ReleasePlugin extends ViaProxyPlugin {
 
         final InjectionClassLoader injectionClassLoader = (InjectionClassLoader) this.getClassLoader();
         injectionClassLoader.getTransformerManager().addTransformerPreprocessor(new MixinsTranslator());
-        injectionClassLoader.getTransformerManager().addTransformer("net.raphimc.b2rplugin.mixins.MixinConsoleWriter"); // Fix logger
         injectionClassLoader.getTransformerManager().addTransformer("net.raphimc.b2rplugin.mixins.MixinBlockMappings");
         injectionClassLoader.getTransformerManager().addTransformer("net.raphimc.b2rplugin.mixins.MixinConfiguration");
         injectionClassLoader.getTransformerManager().addTransformer("net.raphimc.b2rplugin.mixins.MixinModernClient");
         injectionClassLoader.getTransformerManager().addTransformer("net.raphimc.b2rplugin.mixins.MixinServer");
-        injectionClassLoader.getTransformerManager().addTransformer("net.raphimc.b2rplugin.mixins.MixinServerEntityPropertiesPacket"); // fix too strict data validation
-        injectionClassLoader.getTransformerManager().addTransformer("net.raphimc.b2rplugin.mixins.MixinServerNotifyClientPacket"); // fix too strict data validation
-        injectionClassLoader.getTransformerManager().addTransformer("net.raphimc.b2rplugin.mixins.MixinServerEntityStatusPacket"); // fix too strict data validation
 
         try {
             RStream.of(injectionClassLoader.loadClass("com.github.dirtpowered.betatorelease.Main")).methods().by("main").invoke();
