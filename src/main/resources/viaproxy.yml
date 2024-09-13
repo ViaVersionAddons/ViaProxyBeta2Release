@@ -1,0 +1,5 @@
+name: "Beta2ReleasePlugin"
+version: "${version}"
+author: "RK_01 and outofmem13"
+main: "net.raphimc.b2rplugin.Beta2ReleasePlugin"
+min-version: "3.3.1"

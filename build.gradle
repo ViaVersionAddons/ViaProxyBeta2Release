@@ -1,0 +1,77 @@
+plugins {
+    id "java"
+}
+
+base {
+    java.toolchain.languageVersion = JavaLanguageVersion.of(21)
+    compileJava.options.encoding = compileTestJava.options.encoding = javadoc.options.encoding = "UTF-8"
+
+    group = project.maven_group ?: rootProject.maven_group
+    archivesName = project.maven_name ?: rootProject.maven_name
+    version = project.maven_version ?: rootProject.maven_version
+}
+
+configurations {
+    include
+
+    implementation.extendsFrom include
+    api.extendsFrom include
+}
+
+repositories {
+    mavenCentral()
+    maven {
+        name = "ViaVersion"
+        url = "https://repo.viaversion.com"
+    }
+    maven {
+        name = "Sonatype Snapshots"
+        url = "https://oss.sonatype.org/content/repositories/snapshots"
+    }
+    maven {
+        name = "DirtPowered Releases"
+        url = "https://repo.mzga.dev/releases"
+    }
+    maven {
+        name = "DirtPowered Snapshots"
+        url = "https://repo.mzga.dev/snapshots"
+    }
+    maven {
+        name = "Jitpack"
+        url = "https://jitpack.io"
+
+        content {
+            includeGroup "com.github.steveice10"
+        }
+    }
+}
+
+dependencies {
+    implementation "net.raphimc:ViaProxy:3.3.3"
+
+    include "dev.mzga:Beta2Release:1.0-SNAPSHOT"
+}
+
+processResources {
+    inputs.property "version", project.version
+
+    filesMatching("viaproxy.yml") {
+        expand "version": project.version
+    }
+}
+
+jar {
+    dependsOn configurations.include
+    from {
+        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+        configurations.include.collect {
+            zipTree(it)
+        }
+    } {
+        exclude "META-INF/*.RSA", "META-INF/*.SF", "META-INF/*.DSA", "io/netty/"
+    }
+
+    from("LICENSE") {
+        rename { "${it}_${project.name ?: rootProject.name}" }
+    }
+}
