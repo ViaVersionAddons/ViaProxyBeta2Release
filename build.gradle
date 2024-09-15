@@ -49,7 +49,7 @@ repositories {
 dependencies {
     implementation "net.raphimc:ViaProxy:3.3.3"
 
-    include "dev.mzga:Beta2Release:1.0.1-SNAPSHOT"
+    include "dev.mzga:Beta2Release:1.0.2-SNAPSHOT"
 }
 
 processResources {
