@@ -45,6 +45,7 @@ public class Beta2ReleasePlugin extends ViaProxyPlugin {
         injectionClassLoader.getTransformerManager().addTransformerPreprocessor(new MixinsTranslator());
         injectionClassLoader.getTransformerManager().addTransformer("net.raphimc.b2rplugin.mixins.MixinBlockMappings");
         injectionClassLoader.getTransformerManager().addTransformer("net.raphimc.b2rplugin.mixins.MixinConfiguration");
+        injectionClassLoader.getTransformerManager().addTransformer("net.raphimc.b2rplugin.mixins.MixinLangStorage");
         injectionClassLoader.getTransformerManager().addTransformer("net.raphimc.b2rplugin.mixins.MixinModernClient");
         injectionClassLoader.getTransformerManager().addTransformer("net.raphimc.b2rplugin.mixins.MixinServer");
 

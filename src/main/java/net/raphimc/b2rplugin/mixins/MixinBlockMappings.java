@@ -30,7 +30,6 @@ public abstract class MixinBlockMappings {
 
     @Redirect(method = "init", at = @At(value = "INVOKE", target = "Ljava/io/File;<init>(Ljava/lang/String;)V"))
     private static File redirectMappingsFile(String name) {
-        Beta2ReleasePlugin.ROOT_FOLDER.mkdirs();
         return new File(Beta2ReleasePlugin.ROOT_FOLDER, name);
     }
 

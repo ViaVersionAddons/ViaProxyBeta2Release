@@ -17,28 +17,27 @@
  */
 package net.raphimc.b2rplugin.mixins;
 
-import com.github.dirtpowered.betatorelease.network.session.Session;
-import com.github.dirtpowered.betatorelease.proxy.ModernClient;
-import com.github.steveice10.packetlib.SessionFactory;
-import net.lenni0451.reflect.stream.RStream;
-import net.raphimc.b2rplugin.session.ViaProxyModernSessionFactory;
-import org.spongepowered.asm.mixin.Final;
+import com.github.dirtpowered.betatorelease.data.lang.LangStorage;
+import net.raphimc.b2rplugin.Beta2ReleasePlugin;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import org.spongepowered.asm.mixin.injection.Redirect;
 
-@Mixin(ModernClient.class)
-public abstract class MixinModernClient {
+import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
-    @Shadow
-    @Final
-    private Session betaSession;
+@Mixin(LangStorage.class)
+public abstract class MixinLangStorage {
 
-    @Inject(method = "getSessionFactory", at = @At("HEAD"), cancellable = true)
-    private void useViaProxySessionFactory(CallbackInfoReturnable<SessionFactory> cir) {
-        cir.setReturnValue(new ViaProxyModernSessionFactory(RStream.of(this.betaSession).fields().by("channel").get()));
+    @Redirect(method = "init", at = @At(value = "INVOKE", target = "Ljava/nio/file/Paths;get(Ljava/lang/String;[Ljava/lang/String;)Ljava/nio/file/Path;"))
+    private static Path redirectLangFile(String first, String... more) {
+        if (first.equals("lang")) {
+            final String other = String.join(File.separator, more);
+            return Beta2ReleasePlugin.ROOT_FOLDER.toPath().resolve(first).resolve(other);
+        } else {
+            return Paths.get(first, more);
+        }
     }
 
 }
