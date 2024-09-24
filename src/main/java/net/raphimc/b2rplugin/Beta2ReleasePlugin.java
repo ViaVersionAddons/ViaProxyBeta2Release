@@ -74,9 +74,10 @@ public class Beta2ReleasePlugin extends ViaProxyPlugin {
                 if (lengthOrPacketId == 2/*<= 1.6.4*/ || lengthOrPacketId == 254/*<= 1.6.4 (ping)*/) {
                     Logger.LOGGER.info("Detected pre 1.7 client connection. Adding Beta2Release handlers.");
                     ServerPipelineHooker.addB2R(ctx.channel());
+                    ctx.pipeline().fireChannelRead(msg.retain());
+                } else {
+                    ctx.fireChannelRead(msg.retain());
                 }
-
-                ctx.pipeline().fireChannelRead(msg.retain());
             }
         });
     }
