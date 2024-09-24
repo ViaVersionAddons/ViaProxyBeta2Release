@@ -66,12 +66,12 @@ public class Beta2ReleasePlugin extends ViaProxyPlugin {
             @Override
             protected void channelRead0(final ChannelHandlerContext ctx, final ByteBuf msg) {
                 if (!ctx.channel().isOpen()) return;
-                if (!msg.isReadable()) return;
+                if (!msg.isReadable(2)) return;
 
                 final int lengthOrPacketId = msg.getUnsignedByte(0);
                 ctx.pipeline().remove(this);
 
-                if (lengthOrPacketId == 2/*<= 1.6.4*/ || lengthOrPacketId == 254/*<= 1.6.4 (ping)*/) {
+                if ((lengthOrPacketId == 2 && msg.getByte(1) == 0)/*<= 1.3*/) {
                     Logger.LOGGER.info("Detected pre 1.7 client connection. Adding Beta2Release handlers.");
                     ServerPipelineHooker.addB2R(ctx.channel());
                     ctx.pipeline().fireChannelRead(msg.retain());
