@@ -37,7 +37,9 @@ public class ViaProxyBetaSession extends Session {
 
     @Override
     public void sendPacket(final Packet packet) {
-        this.channel.pipeline().context("b2r-user_session").writeAndFlush(packet);
+        if (this.channel.isActive()) {
+            this.channel.pipeline().context("b2r-user_session").writeAndFlush(packet);
+        }
     }
 
     @Override
