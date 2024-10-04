@@ -25,6 +25,10 @@ repositories {
         url = "https://repo.viaversion.com"
     }
     maven {
+        name = "Lenni0451"
+        url = "https://maven.lenni0451.net/everything"
+    }
+    maven {
         name = "Sonatype Snapshots"
         url = "https://oss.sonatype.org/content/repositories/snapshots"
     }
@@ -49,7 +53,7 @@ repositories {
 dependencies {
     implementation "net.raphimc:ViaProxy:3.3.3"
 
-    include "dev.mzga:Beta2Release:1.0.4-SNAPSHOT"
+    include "dev.mzga:Beta2Release:1.0.5-SNAPSHOT"
 }
 
 processResources {
