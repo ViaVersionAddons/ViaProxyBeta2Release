@@ -29,6 +29,7 @@ import net.raphimc.viaproxy.ViaProxy;
 import net.raphimc.viaproxy.plugins.PluginManager;
 import net.raphimc.viaproxy.plugins.ViaProxyPlugin;
 import net.raphimc.viaproxy.plugins.events.Client2ProxyChannelInitializeEvent;
+import net.raphimc.viaproxy.plugins.events.ShouldVerifyOnlineModeEvent;
 import net.raphimc.viaproxy.plugins.events.types.ITyped;
 import net.raphimc.viaproxy.util.logging.Logger;
 
@@ -39,6 +40,7 @@ public class Beta2ReleasePlugin extends ViaProxyPlugin {
 
     public static final File ROOT_FOLDER = new File(PluginManager.PLUGINS_DIR, "Beta2Release");
     private List<BetaPlayer> b2rPlayers;
+    private boolean b2rOnlineMode;
 
     @Override
     public void onEnable() {
@@ -56,6 +58,7 @@ public class Beta2ReleasePlugin extends ViaProxyPlugin {
             final Class<?> mainClass = injectionClassLoader.loadClass("com.github.dirtpowered.betatorelease.Main");
             RStream.of(mainClass).methods().by("main").invoke();
             this.b2rPlayers = RStream.of(mainClass).fields().by("server").stream().fields().by("onlinePlayers").get();
+            this.b2rOnlineMode = RStream.of(mainClass).fields().by("server").stream().fields().by("configuration").stream().fields().by("onlineMode").get();
         } catch (Throwable e) {
             throw new RuntimeException("Failed to start Beta2Release", e);
         }
@@ -87,13 +90,16 @@ public class Beta2ReleasePlugin extends ViaProxyPlugin {
         });
     }
 
-    /*@EventHandler
+    @EventHandler
     private void onShouldVerifyOnlineModeEvent(final ShouldVerifyOnlineModeEvent event) {
+        if (!this.b2rOnlineMode) return;
+
         final String username = event.getProxyConnection().getGameProfile().getName();
         if (username == null) return;
 
-        final var connection = this.b2rPlayers.stream().filter(p -> p.getSession().getPlayerName().equals(username)).findAny().orElse(null);
-        if (connection == null) return;
-    }*/
+        if (this.b2rPlayers.stream().anyMatch(p -> p.getSession().getPlayerName().equals(username))) {
+            event.setCancelled(true);
+        }
+    }
 
 }
