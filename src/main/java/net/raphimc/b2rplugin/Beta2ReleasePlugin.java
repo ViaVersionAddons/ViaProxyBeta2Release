@@ -17,6 +17,7 @@
  */
 package net.raphimc.b2rplugin;
 
+import com.github.dirtpowered.betatorelease.network.session.BetaPlayer;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
@@ -32,10 +33,12 @@ import net.raphimc.viaproxy.plugins.events.types.ITyped;
 import net.raphimc.viaproxy.util.logging.Logger;
 
 import java.io.File;
+import java.util.List;
 
 public class Beta2ReleasePlugin extends ViaProxyPlugin {
 
     public static final File ROOT_FOLDER = new File(PluginManager.PLUGINS_DIR, "Beta2Release");
+    private List<BetaPlayer> b2rPlayers;
 
     @Override
     public void onEnable() {
@@ -50,7 +53,9 @@ public class Beta2ReleasePlugin extends ViaProxyPlugin {
         injectionClassLoader.getTransformerManager().addTransformer("net.raphimc.b2rplugin.mixins.MixinServer");
 
         try {
-            RStream.of(injectionClassLoader.loadClass("com.github.dirtpowered.betatorelease.Main")).methods().by("main").invoke();
+            final Class<?> mainClass = injectionClassLoader.loadClass("com.github.dirtpowered.betatorelease.Main");
+            RStream.of(mainClass).methods().by("main").invoke();
+            this.b2rPlayers = RStream.of(mainClass).fields().by("server").stream().fields().by("onlinePlayers").get();
         } catch (Throwable e) {
             throw new RuntimeException("Failed to start Beta2Release", e);
         }
@@ -81,5 +86,14 @@ public class Beta2ReleasePlugin extends ViaProxyPlugin {
             }
         });
     }
+
+    /*@EventHandler
+    private void onShouldVerifyOnlineModeEvent(final ShouldVerifyOnlineModeEvent event) {
+        final String username = event.getProxyConnection().getGameProfile().getName();
+        if (username == null) return;
+
+        final var connection = this.b2rPlayers.stream().filter(p -> p.getSession().getPlayerName().equals(username)).findAny().orElse(null);
+        if (connection == null) return;
+    }*/
 
 }
