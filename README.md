@@ -4,7 +4,7 @@
 **This plugin requires at least Java 21**
 
 ## Installation and Usage
-1. Download the latest version from [GitHub Actions](https://github.com/ViaVersionAddons/ViaProxyBeta2Release/actions).
+1. Download the latest version from [GitHub Actions](https://github.com/ViaVersionAddons/ViaProxyBeta2Release/actions/workflows/build.yml).
 2. Put the jar file into the plugins folder of ViaProxy
 3. Run ViaProxy. You should now be able to connect with a beta 1.7.3 client to ViaProxy (same port).
 
