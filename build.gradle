@@ -30,10 +30,6 @@ repositories {
         url = "https://maven.lenni0451.net/everything"
     }
     maven {
-        name = "Sonatype Snapshots"
-        url = "https://oss.sonatype.org/content/repositories/snapshots"
-    }
-    maven {
         name = "DirtPowered Releases"
         url = "https://repo.mzga.dev/releases"
     }
