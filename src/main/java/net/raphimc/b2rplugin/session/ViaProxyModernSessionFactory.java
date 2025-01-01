@@ -1,6 +1,6 @@
 /*
  * This file is part of ViaProxyBeta2Release - https://github.com/ViaVersionAddons/ViaProxyBeta2Release
- * Copyright (C) 2024-2024 RK_01/RaphiMC and contributors
+ * Copyright (C) 2024-2025 RK_01/RaphiMC and contributors
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
