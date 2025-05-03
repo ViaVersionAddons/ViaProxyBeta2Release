@@ -1,0 +1,23 @@
+plugins {
+    id "base.exclude-run-folder"
+}
+
+tasks.register("runViaProxy", JavaExec) {
+    dependsOn(tasks.jar)
+
+    mainClass = "net.raphimc.viaproxy.ViaProxy"
+    classpath = sourceSets.main.compileClasspath
+    workingDir = file("run")
+    jvmArgs = ["-DskipUpdateCheck"]
+
+    doFirst {
+        def pluginsDir = file("$workingDir/plugins")
+        pluginsDir.mkdirs()
+        file("$pluginsDir/${project.name}.jar").bytes = tasks.jar.archiveFile.get().asFile.bytes
+    }
+
+    doLast {
+        file("$workingDir/plugins/${project.name}.jar").delete()
+        file("$workingDir/logs").deleteDir()
+    }
+}

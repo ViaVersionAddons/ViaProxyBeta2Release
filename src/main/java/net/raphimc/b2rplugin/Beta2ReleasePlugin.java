@@ -19,7 +19,6 @@ package net.raphimc.b2rplugin;
 
 import com.github.dirtpowered.betatorelease.network.session.BetaPlayer;
 import com.mojang.authlib.GameProfile;
-import com.mojang.util.UUIDTypeAdapter;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
@@ -101,7 +100,7 @@ public class Beta2ReleasePlugin extends ViaProxyPlugin {
 
         final BetaPlayer player = this.b2rPlayers.stream().filter(p -> p.getSession().getPlayerName().equals(username)).findFirst().orElse(null);
         if (player != null && player.getUuid() != null) {
-            event.getProxyConnection().setGameProfile(new GameProfile(UUIDTypeAdapter.fromString(player.getUuid()), username));
+            event.getProxyConnection().setGameProfile(new GameProfile(player.getUuid(), username));
             event.setCancelled(true);
         }
     }
