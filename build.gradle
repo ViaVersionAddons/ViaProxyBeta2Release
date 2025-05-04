@@ -1,5 +1,12 @@
 plugins {
     id "viaproxy.plugin-conventions"
+    id "net.lenni0451.repackager" version "1.0.1"
+}
+
+configurations {
+    repackagedInclude
+
+    include.extendsFrom(repackagedInclude)
 }
 
 repositories {
@@ -11,14 +18,6 @@ repositories {
         name = "DirtPowered Snapshots"
         url = "https://repo.mzga.dev/snapshots"
     }
-    maven {
-        name = "Jitpack"
-        url = "https://jitpack.io"
-
-        content {
-            includeGroup "com.github.steveice10"
-        }
-    }
 }
 
 dependencies {
@@ -26,5 +25,17 @@ dependencies {
         transitive = false
     }
 
-    include "dev.mzga:Beta2Release:1.0.6-SNAPSHOT"
+    repackagedInclude("dev.mzga:Beta2Release:1.0.6-SNAPSHOT") {
+        transitive = false
+    }
+}
+
+dependencyRepackager {
+    configuration = configurations.repackagedInclude
+    relocations = [
+            "org.apache": "com.github.dirtpowered.betatorelease.libs.org.apache",
+            "net.lenni0451.mcstructs": "com.github.dirtpowered.betatorelease.libs.net.lenni0451.mcstructs",
+            "com.google": "com.github.dirtpowered.betatorelease.libs.com.google"
+    ]
+    removeEmptyDirs = true
 }
