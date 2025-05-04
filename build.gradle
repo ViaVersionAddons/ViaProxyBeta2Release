@@ -22,7 +22,9 @@ repositories {
 }
 
 dependencies {
-    implementation "net.raphimc:ViaProxy:3.4.1"
+    implementation("net.raphimc:ViaProxy:3.4.1") {
+        transitive = false
+    }
 
     include "dev.mzga:Beta2Release:1.0.6-SNAPSHOT"
 }

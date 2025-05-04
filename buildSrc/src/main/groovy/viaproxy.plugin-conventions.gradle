@@ -15,7 +15,8 @@ repositories {
 processResources {
     inputs.property("version", project.version)
 
+    def projectVersion = project.version
     filesMatching("viaproxy.yml") {
-        expand("version": project.version)
+        expand("version": projectVersion)
     }
 }
