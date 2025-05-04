@@ -4,9 +4,9 @@ plugins {
 }
 
 configurations {
-    repackagedInclude
+    repackagedIncludeInJar
 
-    include.extendsFrom(repackagedInclude)
+    includeInJar.extendsFrom(repackagedIncludeInJar)
 }
 
 repositories {
@@ -25,13 +25,13 @@ dependencies {
         transitive = false
     }
 
-    repackagedInclude("dev.mzga:Beta2Release:1.0.6-SNAPSHOT") {
+    repackagedIncludeInJar("dev.mzga:Beta2Release:1.0.6-SNAPSHOT") {
         transitive = false
     }
 }
 
 dependencyRepackager {
-    configuration = configurations.repackagedInclude
+    configuration = configurations.repackagedIncludeInJar
     relocations = [
             "org.apache": "com.github.dirtpowered.betatorelease.libs.org.apache",
             "net.lenni0451.mcstructs": "com.github.dirtpowered.betatorelease.libs.net.lenni0451.mcstructs",
