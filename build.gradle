@@ -1,6 +1,6 @@
 plugins {
     id "viaproxy.plugin-conventions"
-    id "net.lenni0451.repackager" version "1.0.1"
+    id "net.lenni0451.repackager" version "1.0.2"
 }
 
 configurations {
@@ -33,9 +33,17 @@ dependencies {
 dependencyRepackager {
     configuration = configurations.repackagedIncludeInJar
     relocations = [
-            "org.apache": "com.github.dirtpowered.betatorelease.libs.org.apache",
+            "org.apache.commons"     : "com.github.dirtpowered.betatorelease.libs.org.apache.commons",
             "net.lenni0451.mcstructs": "com.github.dirtpowered.betatorelease.libs.net.lenni0451.mcstructs",
-            "com.google": "com.github.dirtpowered.betatorelease.libs.com.google"
+            "com.google"             : "com.github.dirtpowered.betatorelease.libs.com.google"
+    ]
+    removals = [
+            "org/apache/logging/log4j",
+            "io/netty",
+            "META-INF/org/apache/logging/log4j",
+            "META-INF/versions/9/org/apache/logging/log4j",
+            "META-INF/services/org.apache.logging.log4j",
+            "log4j"
     ]
     removeEmptyDirs = true
 }
