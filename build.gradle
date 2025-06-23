@@ -21,7 +21,7 @@ repositories {
 }
 
 dependencies {
-    implementation("net.raphimc:ViaProxy:3.4.1") {
+    implementation("net.raphimc:ViaProxy:3.4.2") {
         transitive = false
     }
 
