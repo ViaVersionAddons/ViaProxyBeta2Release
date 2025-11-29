@@ -1,10 +1,10 @@
 version: 2
 registries:
   maven-central:
-    type: maven-repository
+    type: "maven-repository"
     url: "https://repo.maven.apache.org/maven2/"
   viaversion-maven:
-    type: maven-repository
+    type: "maven-repository"
     url: "https://repo.viaversion.com/"
 updates:
   - package-ecosystem: "gradle"
@@ -12,9 +12,9 @@ updates:
     schedule:
       interval: "daily"
     registries:
-      - maven-central
-      - viaversion-maven
+      - "maven-central"
+      - "viaversion-maven"
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
-      interval: "weekly"
+      interval: "daily"
