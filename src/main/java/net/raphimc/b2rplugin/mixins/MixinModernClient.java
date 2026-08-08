@@ -37,7 +37,7 @@ public abstract class MixinModernClient {
     private Session betaSession;
 
     @Inject(method = "getSessionFactory", at = @At("HEAD"), cancellable = true)
-    private void useViaProxySessionFactory(CallbackInfoReturnable<SessionFactory> cir) {
+    private void useViaProxySessionFactory(final CallbackInfoReturnable<SessionFactory> cir) {
         cir.setReturnValue(new ViaProxyModernSessionFactory(RStream.of(this.betaSession).fields().by("channel").get()));
     }
 

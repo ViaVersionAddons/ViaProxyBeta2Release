@@ -60,7 +60,7 @@ public class Beta2ReleasePlugin extends ViaProxyPlugin {
             RStream.of(mainClass).methods().by("main").invoke();
             this.b2rPlayers = RStream.of(mainClass).fields().by("server").stream().fields().by("onlinePlayers").get();
             this.b2rOnlineMode = RStream.of(mainClass).fields().by("server").stream().fields().by("configuration").stream().fields().by("onlineMode").get();
-        } catch (Throwable e) {
+        } catch (final Throwable e) {
             throw new RuntimeException("Failed to start Beta2Release", e);
         }
 
@@ -69,13 +69,19 @@ public class Beta2ReleasePlugin extends ViaProxyPlugin {
 
     @EventHandler
     private void onClient2ProxyChannelInit(final Client2ProxyChannelInitializeEvent event) {
-        if (event.getType() != ITyped.Type.PRE) return;
+        if (event.getType() != ITyped.Type.PRE) {
+            return;
+        }
 
         event.getChannel().pipeline().addFirst("b2r-initial-handler", new SimpleChannelInboundHandler<ByteBuf>() {
             @Override
             protected void channelRead0(final ChannelHandlerContext ctx, final ByteBuf msg) {
-                if (!ctx.channel().isOpen()) return;
-                if (!msg.isReadable(2)) return;
+                if (!ctx.channel().isOpen()) {
+                    return;
+                }
+                if (!msg.isReadable(2)) {
+                    return;
+                }
 
                 final int lengthOrPacketId = msg.getUnsignedByte(0);
                 ctx.pipeline().remove(this);
@@ -93,10 +99,14 @@ public class Beta2ReleasePlugin extends ViaProxyPlugin {
 
     @EventHandler
     private void onShouldVerifyOnlineModeEvent(final ShouldVerifyOnlineModeEvent event) {
-        if (!this.b2rOnlineMode) return;
+        if (!this.b2rOnlineMode) {
+            return;
+        }
 
         final String username = event.getProxyConnection().getGameProfile().getName();
-        if (username == null) return;
+        if (username == null) {
+            return;
+        }
 
         final BetaPlayer player = this.b2rPlayers.stream().filter(p -> p.getSession().getPlayerName().equals(username)).findFirst().orElse(null);
         if (player != null && player.getUuid() != null) {

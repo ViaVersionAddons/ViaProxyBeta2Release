@@ -24,7 +24,11 @@ import com.github.steveice10.packetlib.tcp.TcpPacketEncryptor;
 import com.github.steveice10.packetlib.tcp.TcpPacketSizer;
 import com.github.steveice10.packetlib.tcp.TcpSession;
 import io.netty.buffer.ByteBuf;
-import io.netty.channel.*;
+import io.netty.channel.Channel;
+import io.netty.channel.ChannelDuplexHandler;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.ChannelPipeline;
+import io.netty.channel.ChannelPromise;
 import io.netty.channel.embedded.EmbeddedChannel;
 
 public class ViaProxyTcpSession extends TcpSession {
@@ -46,7 +50,7 @@ public class ViaProxyTcpSession extends TcpSession {
         this.viaProxyClientChannel.closeFuture().addListener(future -> ViaProxyTcpSession.this.embeddedChannel.close());
         this.viaProxyClientChannel.pipeline().addAfter("b2r-user_session", "mcpl-pipeline", new ChannelDuplexHandler() {
             @Override
-            public void write(ChannelHandlerContext ctx, Object msg, ChannelPromise promise) {
+            public void write(final ChannelHandlerContext ctx, final Object msg, final ChannelPromise promise) {
                 ViaProxyTcpSession.this.embeddedChannel.writeOneInbound(msg, promise);
             }
         });
@@ -61,7 +65,7 @@ public class ViaProxyTcpSession extends TcpSession {
         pipeline.addLast("manager", this);
         try {
             this.channelActive(pipeline.firstContext());
-        } catch (Exception e) {
+        } catch (final Exception e) {
             throw new RuntimeException(e);
         }
     }
@@ -73,7 +77,7 @@ public class ViaProxyTcpSession extends TcpSession {
         if (data != null) {
             try {
                 this.viaProxyClientChannel.pipeline().context("mcpl-pipeline").fireChannelRead(data);
-            } catch (Throwable e) {
+            } catch (final Throwable e) {
                 this.exceptionCaught(null, e);
             }
         }

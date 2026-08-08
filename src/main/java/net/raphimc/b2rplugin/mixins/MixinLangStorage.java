@@ -31,7 +31,7 @@ import java.nio.file.Paths;
 public abstract class MixinLangStorage {
 
     @Redirect(method = "init", at = @At(value = "INVOKE", target = "Ljava/nio/file/Paths;get(Ljava/lang/String;[Ljava/lang/String;)Ljava/nio/file/Path;"))
-    private static Path redirectLangFile(String first, String... more) {
+    private static Path redirectLangFile(final String first, final String... more) {
         if (first.equals("lang")) {
             final String other = String.join(File.separator, more);
             return Beta2ReleasePlugin.ROOT_FOLDER.toPath().resolve(first).resolve(other);

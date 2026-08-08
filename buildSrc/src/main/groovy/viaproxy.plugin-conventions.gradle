@@ -1,6 +1,7 @@
 plugins {
     id "java-library"
     id "base.base-conventions"
+    id "base.checkstyle"
     id "base.include-in-jar-configuration"
     id "viaproxy.run-with-viaproxy-task"
 }

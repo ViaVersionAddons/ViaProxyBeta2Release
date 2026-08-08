@@ -17,7 +17,11 @@
  */
 package net.raphimc.b2rplugin.session;
 
-import com.github.steveice10.packetlib.*;
+import com.github.steveice10.packetlib.Client;
+import com.github.steveice10.packetlib.ConnectionListener;
+import com.github.steveice10.packetlib.Server;
+import com.github.steveice10.packetlib.Session;
+import com.github.steveice10.packetlib.SessionFactory;
 import io.netty.channel.Channel;
 
 public class ViaProxyModernSessionFactory implements SessionFactory {

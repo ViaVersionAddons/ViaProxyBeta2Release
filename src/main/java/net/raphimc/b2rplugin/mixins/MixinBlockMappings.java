@@ -29,7 +29,7 @@ import java.io.File;
 public abstract class MixinBlockMappings {
 
     @Redirect(method = "init", at = @At(value = "INVOKE", target = "Ljava/io/File;<init>(Ljava/lang/String;)V"))
-    private static File redirectMappingsFile(String name) {
+    private static File redirectMappingsFile(final String name) {
         return new File(Beta2ReleasePlugin.ROOT_FOLDER, name);
     }
 

@@ -45,7 +45,7 @@ public abstract class MixinServer {
     private BetaToModernRegistry betaToModernRegistry;
 
     @Overwrite
-    private void bind(String address, int port) {
+    private void bind(final String address, final int port) {
         ServerPipelineHooker.prepare(channel -> {
             channel.pipeline().addFirst("b2r-decoder", new PacketDecoder());
             channel.pipeline().addAfter("b2r-decoder", "b2r-encoder", new PacketEncoder());
@@ -54,7 +54,7 @@ public abstract class MixinServer {
     }
 
     @Redirect(method = "stop", at = @At(value = "INVOKE", target = "Lio/netty/channel/EventLoopGroup;shutdownGracefully()Lio/netty/util/concurrent/Future;"))
-    private Future<?> shutdown(EventLoopGroup eventLoopGroup) {
+    private Future<?> shutdown(final EventLoopGroup eventLoopGroup) {
         // No op. The object is null because we overwrote the bind method
         return null;
     }

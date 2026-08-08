@@ -21,9 +21,12 @@ import io.netty.channel.Channel;
 
 import java.util.function.Consumer;
 
-public class ServerPipelineHooker {
+public final class ServerPipelineHooker {
 
     private static Consumer<Channel> handlerAdder;
+
+    private ServerPipelineHooker() {
+    }
 
     public static void prepare(final Consumer<Channel> handlerAdder) {
         ServerPipelineHooker.handlerAdder = handlerAdder;
